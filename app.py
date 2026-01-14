@@ -23,7 +23,7 @@ if run_process and s_file and m_file:
         raw_data, pivot_summary = engine.process()
         
         # Tabs for UI
-        t1, t2 = st.tabs(["📊 Pivot Table", "📋 Detailed Data"])
+        t1, t2 = st.tabs([ "📋 Detailed Data","📊 Pivot Table"])
         
         with t1:
             st.subheader("Final Pivot Summary")
@@ -41,4 +41,5 @@ if run_process and s_file and m_file:
             st.dataframe(raw_data.to_pandas().head(100))
 
 else:
+
     st.warning("Please upload both Sales and Master files to proceed.")
