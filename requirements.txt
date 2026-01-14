@@ -4,4 +4,11 @@ pandas
 xlsxwriter
 pyxlsb
 fastexcel
+streamlit
+polars
+pandas
+fastexcel
+xlsxwriter
+openpyxl
+pyxlsb
 python-calamine
