@@ -13,24 +13,12 @@ st.set_page_config(
 )
 
 # --------------------------------------------------
-# CUSTOM CSS (Clean, Professional)
+# BASIC CLEAN CSS
 # --------------------------------------------------
 st.markdown("""
 <style>
-.block-container {
-    padding-top: 2rem;
-}
-
-.upload-box {
-    border: 2px dashed #4B8BBE;
-    border-radius: 12px;
-    padding: 20px;
-    background-color: #F7FAFC;
-}
-
-h1, h2, h3 {
-    font-weight: 600;
-}
+.block-container { padding-top: 2rem; }
+h1, h2, h3 { font-weight: 600; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -39,39 +27,37 @@ h1, h2, h3 {
 # --------------------------------------------------
 st.title("🚀 Sales & Master Processing Engine")
 st.markdown(
-    "Automated pipeline to **clean, enrich, and summarize sales data** using the master file."
+    "Upload sales and master files to generate **detailed transactional data** "
+    "followed by an **aggregated pivot summary**."
 )
 
 st.divider()
 
 # --------------------------------------------------
-# MAIN UPLOAD SECTION
+# FILE UPLOAD SECTION (MAIN PAGE)
 # --------------------------------------------------
-st.subheader("📂 Upload Required Files")
+st.subheader("📂 Upload Files")
 
-col1, col2 = st.columns(2)
+c1, c2 = st.columns(2)
 
-with col1:
-    st.markdown("#### 🧾 Sales Data")
+with c1:
+    st.markdown("#### 🧾 Sales File")
     s_file = st.file_uploader(
-        "Upload Q3 Sales File",
+        "Upload Sales (.xlsb / .xlsx)",
         type=["xlsb", "xlsx"],
         label_visibility="collapsed"
     )
 
-with col2:
-    st.markdown("#### 📘 Master Data")
+with c2:
+    st.markdown("#### 📘 Master File")
     m_file = st.file_uploader(
-        "Upload Master File",
+        "Upload Master (.xlsx)",
         type=["xlsx"],
         label_visibility="collapsed"
     )
 
 st.markdown("<br>", unsafe_allow_html=True)
 
-# --------------------------------------------------
-# ACTION BUTTON
-# --------------------------------------------------
 run_process = st.button(
     "⚙️ Generate Report",
     type="primary",
@@ -79,54 +65,68 @@ run_process = st.button(
 )
 
 # --------------------------------------------------
-# PROCESSING LOGIC
+# PROCESSING
 # --------------------------------------------------
 if run_process:
     if not s_file or not m_file:
-        st.error("❌ Both Sales and Master files are mandatory.")
+        st.error("❌ Upload BOTH Sales and Master files.")
     else:
-        with st.spinner("Running transformation pipeline..."):
+        with st.spinner("Running data pipeline..."):
             engine = SalesProcessor(s_file, m_file)
             raw_data, pivot_summary = engine.process()
 
-        st.success("✅ Processing completed successfully.")
+        st.success("✅ Processing completed.")
 
         # --------------------------------------------------
-        # RESULT TABS
+        # METRICS (TRUST INDICATOR)
         # --------------------------------------------------
-        t1, t2 = st.tabs(["📊 Pivot Summary", "📋 Detailed Sales Data"])
+        m1, m2 = st.columns(2)
+        m1.metric("Detailed Rows", raw_data.height)
+        m2.metric("Pivot Rows", pivot_summary.height)
+
+        st.divider()
+
+        # --------------------------------------------------
+        # RESULT TABS (LOGICALLY ORDERED)
+        # --------------------------------------------------
+        t1, t2 = st.tabs([
+            "📋 Detailed Sales Data",
+            "📊 Pivot Summary"
+        ])
 
         with t1:
+            st.subheader("Detailed Sales Data")
+            st.caption("Row-level data after master mapping")
+            st.dataframe(
+                raw_data.to_pandas(),
+                use_container_width=True
+            )
+
+        with t2:
             st.subheader("Pivot Summary")
+            st.caption("Aggregated metrics derived from detailed data")
             st.dataframe(
                 pivot_summary.to_pandas(),
                 use_container_width=True
             )
 
-        with t2:
-            st.subheader("Raw Sales Data (Preview)")
-            st.dataframe(
-                raw_data.to_pandas().head(200),
-                use_container_width=True
-            )
-
         # --------------------------------------------------
-        # EXPORT SECTION
+        # EXPORT
         # --------------------------------------------------
         st.divider()
-        st.subheader("⬇️ Export Result")
+        st.subheader("⬇️ Export Final Report")
 
         output = io.BytesIO()
         with pd.ExcelWriter(output, engine="xlsxwriter") as writer:
             raw_data.to_pandas().to_excel(
-                writer, sheet_name="Sales", index=False
+                writer, sheet_name="Detailed_Sales", index=False
             )
             pivot_summary.to_pandas().to_excel(
-                writer, sheet_name="Pivot", index=False
+                writer, sheet_name="Pivot_Summary", index=False
             )
 
         st.download_button(
-            "📥 Download Final Excel Report",
+            "📥 Download Excel",
             data=output.getvalue(),
             file_name="Sales_Report.xlsx",
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
