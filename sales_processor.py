@@ -16,7 +16,7 @@ class SalesProcessor:
         if self.sales_file.name.endswith(".xlsb"):
             pdf = pd.read_excel(self.sales_file, engine="pyxlsb")
         else:
-            pdf = pd.read_excel(self.sales_file)
+            pdf = pd.read_excel(self.sales_file,engine="openpyxl")
 
         return pl.from_pandas(pdf)
 
@@ -137,3 +137,4 @@ class SalesProcessor:
         )
 
         return sales, pivot
+
