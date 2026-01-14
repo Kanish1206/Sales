@@ -10,7 +10,7 @@ st.markdown("Upload your files to apply the automated pipeline.")
 
 # --- Sidebar Uploads ---
 #with st.sidebar:
-    st.header("Data Sources")
+    #st.header("Data Sources")
     s_file = st.file_uploader("Upload Q3 Sales (.xlsb)", type=['xlsb', 'xlsx'])
     m_file = st.file_uploader("Upload Master (.xlsx)", type=['xlsx'])
     run_process = st.button("Generate Report")
@@ -43,4 +43,5 @@ if run_process and s_file and m_file:
 else:
 
     st.warning("Please upload both Sales and Master files to proceed.")
+
 
