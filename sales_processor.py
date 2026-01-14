@@ -18,11 +18,11 @@ class SalesProcessor:
         else:
             pdf = pd.read_excel(self.sales_file,engine="openpyxl")
 
-        return pl.from_pandas(pd_df)
+        return pl.from_pandas(pdf)
 
     def _load_master(self) -> pl.DataFrame:
         pdf = pd.read_excel(self.master_file)
-        return pl.from_pandas(pd_df)
+        return pl.from_pandas(pdf)
 
     # --------------------------------------------------
     # CORE PROCESS
@@ -137,6 +137,7 @@ class SalesProcessor:
         )
 
         return sales, pivot
+
 
 
 
