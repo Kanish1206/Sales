@@ -4,8 +4,8 @@ import io
 class SalesProcessor:
     def __init__(self, sales_file, master_file):
         # We read the uploaded files from Streamlit (BytesIO)
-        self.sales = pl.read_excel(sales_file.read())
-        self.master = pl.read_excel(master_file.read())
+        self.sales = pl.read_excel(sales_file.read(),engine="pyxlsb")
+        self.master = pl.read_excel(master_file.read(),engine="fastexcel")
 
     def process(self):
         # 1. Rename Columns to avoid conflicts during join
@@ -86,3 +86,4 @@ class SalesProcessor:
         )
 
         return result_df, pivot_df
+
