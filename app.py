@@ -5,11 +5,11 @@ import io
 
 st.set_page_config(page_title="Sales Engine", layout="wide")
 
-st.title("🚀 Sales Logic Processor")
-st.markdown("Upload your files to apply the automated logic pipeline.")
+st.title("🚀 Sales & Master Processor")
+st.markdown("Upload your files to apply the automated pipeline.")
 
 # --- Sidebar Uploads ---
-with st.sidebar:
+#with st.sidebar:
     st.header("Data Sources")
     s_file = st.file_uploader("Upload Q3 Sales (.xlsb)", type=['xlsb', 'xlsx'])
     m_file = st.file_uploader("Upload Master (.xlsx)", type=['xlsx'])
@@ -43,3 +43,4 @@ if run_process and s_file and m_file:
 else:
 
     st.warning("Please upload both Sales and Master files to proceed.")
+
