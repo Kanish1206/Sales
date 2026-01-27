@@ -17,13 +17,13 @@ class SalesProcessor:
         master = self._load_data(self.master_file)
 
         # 2. Rename Columns to avoid conflicts
-        sales = sales.rename({
-            'PLI APP': 'PLI APP 1',
-            'PLI CAT': 'PLI CAT 1',
-            'CATE ALL': 'CATE ALL 1',
-            'PLI HSN': 'PLI HSN 1',
-            'UQM': 'UQM 1'
-        })
+        #sales = sales.rename({
+            #'PLI APP': 'PLI APP 1',
+            #'PLI CAT': 'PLI CAT 1',
+            #'CATE ALL': 'CATE ALL 1',
+            #'PLI HSN': 'PLI HSN 1',
+            #'UQM': 'UQM 1'
+        #})
 
         # 3. Cast key columns to String for safety
         string_cols = ["Product Code", "Customer Name", "Billing Description"]
@@ -90,3 +90,4 @@ class SalesProcessor:
         ).fill_null(0)
 
         return result_df, pivot_df
+
