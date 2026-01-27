@@ -13,6 +13,7 @@ openpyxl
 pyxlsb
 python-calamine
 zipfile
-pip install --upgrade pip
+pip
 io
+
 
