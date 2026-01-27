@@ -59,11 +59,11 @@ class SalesProcessor:
             .when(credit_mask).then(pl.lit('Credit Note'))
             .otherwise(pl.lit('Domestic')).alias('Type')
         )
-        priority_cols = ['PLI APP', 'PLI CAT', 'CATE ALL', 'PLI HSN', 'UQM', 'Type', 'Year']
+        #priority_cols = ['PLI APP', 'PLI CAT', 'CATE ALL', 'PLI HSN', 'UQM', 'Type', 'Year']
         # Get all other columns that aren't in the priority list
-        other_cols = [c for c in df.columns if c not in priority_cols]
+        #other_cols = [c for c in df.columns if c not in priority_cols]
         # Final reordered dataframe
-        self.result_df = df.select(priority_cols + other_cols)
+        #self.result_df = df.select(priority_cols + other_cols)
 
         # 6. Pivot
         # Ensure values are float and fill nulls before pivoting
@@ -80,4 +80,5 @@ class SalesProcessor:
         ).fill_null(0)
         
         return self.result_df, self.pivot_df
+
 
