@@ -13,8 +13,8 @@ openpyxl
 pyxlsb
 python-calamine
 zipfile
-pip 25.3
 io
+
 
 
 
